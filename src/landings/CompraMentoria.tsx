@@ -57,8 +57,6 @@ const FAQ = [
 ]
 
 export default function CompraMentoria() {
-  const [checkout, setCheckout] = useState(false)
-
   return (
     <LandingLayout hideWhatsApp>
       {/* 1 · Hero Compacto enfocado en la decisión inmediata */}
@@ -83,7 +81,7 @@ export default function CompraMentoria() {
           </>
         }
         actions={
-          <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} className="w-full sm:w-auto" magnetic>
+          <CTAButton href="https://link.fastpaydirect.com/payment-link/6a4d2612c981f3feae6e7e2d" icon={<Icon.ArrowRight />} className="w-full sm:w-auto" magnetic>
             Empezar mi mentoría ($3,997)
           </CTAButton>
         }
@@ -149,7 +147,7 @@ export default function CompraMentoria() {
             <div className="mt-2 font-display text-5xl font-semibold text-ivory">$3,997</div>
             <p className="mt-1 text-[13px] text-ivory/50">Incluye soporte diario directo por WhatsApp con Argenis y Carmen.</p>
             <div className="mt-6">
-              <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} size="lg" className="w-full">
+              <CTAButton href="https://link.fastpaydirect.com/payment-link/6a4d2612c981f3feae6e7e2d" size="lg" className="w-full">
                 Empezar mentoría ($3,997)
               </CTAButton>
             </div>
@@ -159,18 +157,6 @@ export default function CompraMentoria() {
           </div>
         </Container>
       </Section>
-
-      <CheckoutMock
-        open={checkout}
-        onClose={() => setCheckout(false)}
-        continueTo="/gracias-mentoria"
-        product={{
-          name: 'Mentoría 1:1 Magic Capital',
-          price: '$3,997',
-          priceNote: 'pago único · 3 módulos · acompañamiento 1:1',
-          bullets: ['Sesiones privadas 1:1 con Argenis y Carmen', 'Plan de inversión + análisis de 5 propiedades', 'Acompañamiento hasta tu primera subasta', 'Grabaciones + Comunidad Magic Capital'],
-        }}
-      />
     </LandingLayout>
   )
 }

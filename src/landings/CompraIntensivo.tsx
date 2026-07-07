@@ -31,8 +31,6 @@ const FAQ = [
 ]
 
 export default function CompraIntensivo() {
-  const [checkout, setCheckout] = useState(false)
-
   return (
     <LandingLayout hideWhatsApp>
       {/* 1 · Hero Directo de Cierre */}
@@ -58,7 +56,7 @@ export default function CompraIntensivo() {
           </>
         }
         actions={
-          <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} className="w-full sm:w-auto" magnetic>
+          <CTAButton href="https://link.fastpaydirect.com/payment-link/6a4d2644c981f3feae6e7e2f" icon={<Icon.ArrowRight />} className="w-full sm:w-auto" magnetic>
             Reservar mi asiento ($297)
           </CTAButton>
         }
@@ -165,7 +163,7 @@ export default function CompraIntensivo() {
             <div className="mt-2 font-display text-5xl font-semibold text-ivory">$297</div>
             <p className="mt-1 text-[13px] text-ivory/50">Incluye Guía MAP-9 interactiva + 14 días de repetición.</p>
             <div className="mt-6">
-              <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} size="lg" className="w-full">
+              <CTAButton href="https://link.fastpaydirect.com/payment-link/6a4d2644c981f3feae6e7e2f" size="lg" className="w-full">
                 Reservar mi asiento ($297)
               </CTAButton>
             </div>
@@ -175,18 +173,6 @@ export default function CompraIntensivo() {
           </div>
         </Container>
       </Section>
-
-      <CheckoutMock
-        open={checkout}
-        onClose={() => setCheckout(false)}
-        continueTo="/gracias-intensivo"
-        product={{
-          name: 'Intensivo MAP-9',
-          price: '$297',
-          priceNote: 'viernes + sábado · en vivo · cupos limitados',
-          bullets: ['2 días en vivo', 'Guía PDF del MAP-9 + herramientas', 'Caso real desglosado', 'Repetición + sesión de seguimiento'],
-        }}
-      />
     </LandingLayout>
   )
 }

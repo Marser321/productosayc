@@ -64,8 +64,6 @@ const FAQ: QA[] = [
 ]
 
 export default function Comunidad() {
-  const [checkout, setCheckout] = useState(false)
-
   return (
     <LandingLayout hideWhatsApp>
       {/* 1 · Hero Compacto enfocado en la decisión inmediata */}
@@ -90,7 +88,7 @@ export default function Comunidad() {
           </>
         }
         actions={
-          <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} className="w-full sm:w-auto" magnetic>
+          <CTAButton href="https://link.fastpaydirect.com/payment-link/6a4d286aa655fa0b802a3179" icon={<Icon.ArrowRight />} className="w-full sm:w-auto" magnetic>
             Unirme a la comunidad ($27/mes)
           </CTAButton>
         }
@@ -178,7 +176,7 @@ export default function Comunidad() {
               </Stagger>
               <div className="mt-6">
                 <CTAButton
-                  onClick={() => setCheckout(true)}
+                  href="https://link.fastpaydirect.com/payment-link/6a4d286aa655fa0b802a3179"
                   size="lg"
                   className="w-full"
                   icon={<Icon.ArrowRight />}
@@ -200,24 +198,6 @@ export default function Comunidad() {
           </div>
         </Container>
       </Section>
-
-      {/* Checkout simulado */}
-      <CheckoutMock
-        open={checkout}
-        onClose={() => setCheckout(false)}
-        continueTo="/gracias-comunidad"
-        product={{
-          name: 'Comunidad Magic Capital',
-          price: '$27',
-          priceNote: 'al mes · cancela cuando quieras',
-          bullets: [
-            'Sesiones y contenido nuevo cada mes',
-            'Espacio para preguntar y resolver dudas',
-            'Acceso organizado a recursos educativos',
-            'Recordatorios del calendario de subastas',
-          ],
-        }}
-      />
     </LandingLayout>
   )
 }
