@@ -55,8 +55,8 @@ export const USE_LANDING_BANNER = false
 // en todas las landings principales por ahora; cambiar la fuente por landing
 // cuando existan otros.
 export const BANNER_VIDEO = {
-  horizontal: '/video/banner-horizontal.mp4',
-  vertical: '/video/banner-vertical.mp4',
+  horizontal: '/video/masterclass-badge-banner.mp4',
+  vertical: '/video/masterclass-badge-banner.mp4',
 }
 
 // Interruptor global del banner de video. Si se pone en false, el hero vuelve al
