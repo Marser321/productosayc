@@ -5,6 +5,7 @@ import CompraIntensivo from './landings/CompraIntensivo'
 import GraciasIntensivo from './landings/GraciasIntensivo'
 import CompraMentoria from './landings/CompraMentoria'
 import GraciasMentoria from './landings/GraciasMentoria'
+import CompararOfertas from './landings/CompararOfertas'
 
 function NotFound() {
   return (
@@ -25,6 +26,9 @@ export const router = createBrowserRouter([
   { path: '/', element: <Comunidad /> },
   { path: '/comunidad', element: <Navigate to="/" replace /> },
   { path: '/gracias-comunidad', element: <GraciasComunidad /> },
+  
+  // Comparativa de Ofertas (Intensivo vs Mentoria)
+  { path: '/comparar', element: <CompararOfertas /> },
   
   // Intensivo MAP-9
   { path: '/intensivo', element: <CompraIntensivo /> },
