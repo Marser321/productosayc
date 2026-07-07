@@ -1,5 +1,6 @@
 import { createBrowserRouter, Link, Navigate } from 'react-router-dom'
 import Comunidad from './landings/Comunidad'
+import GraciasComunidad from './landings/GraciasComunidad'
 import CompraIntensivo from './landings/CompraIntensivo'
 import GraciasIntensivo from './landings/GraciasIntensivo'
 import CompraMentoria from './landings/CompraMentoria'
@@ -20,9 +21,10 @@ function NotFound() {
 }
 
 export const router = createBrowserRouter([
-  // Comunidad en la raíz
+  // Comunidad
   { path: '/', element: <Comunidad /> },
   { path: '/comunidad', element: <Navigate to="/" replace /> },
+  { path: '/gracias-comunidad', element: <GraciasComunidad /> },
   
   // Intensivo MAP-9
   { path: '/intensivo', element: <CompraIntensivo /> },

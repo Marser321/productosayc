@@ -205,6 +205,7 @@ export default function Comunidad() {
       <CheckoutMock
         open={checkout}
         onClose={() => setCheckout(false)}
+        continueTo="/gracias-comunidad"
         product={{
           name: 'Comunidad Magic Capital',
           price: '$27',
