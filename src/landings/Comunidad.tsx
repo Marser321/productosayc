@@ -67,7 +67,7 @@ export default function Comunidad() {
   const [checkout, setCheckout] = useState(false)
 
   return (
-    <LandingLayout waMessage="Hola, tengo dudas sobre la Comunidad Magic Capital ($27/mes) antes de suscribirme.">
+    <LandingLayout hideWhatsApp>
       {/* 1 · Hero Compacto enfocado en la decisión inmediata */}
       <LandingHero
         tone="charcoal"
@@ -90,18 +90,9 @@ export default function Comunidad() {
           </>
         }
         actions={
-          <>
-            <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} magnetic>
-              Unirme a la comunidad ($27/mes)
-            </CTAButton>
-            <CTAButton
-              href={waLink('Hola, tengo dudas sobre la Comunidad Magic Capital ($27/mes).')}
-              variant="whatsapp"
-              icon={<Icon.Whatsapp />}
-            >
-              Consultar por WhatsApp
-            </CTAButton>
-          </>
+          <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} className="w-full sm:w-auto" magnetic>
+            Unirme a la comunidad ($27/mes)
+          </CTAButton>
         }
       />
 

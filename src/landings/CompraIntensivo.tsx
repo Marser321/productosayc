@@ -34,7 +34,7 @@ export default function CompraIntensivo() {
   const [checkout, setCheckout] = useState(false)
 
   return (
-    <LandingLayout waMessage="Hola, tengo una pregunta sobre el Intensivo MAP-9 ($297) antes de comprar.">
+    <LandingLayout hideWhatsApp>
       {/* 1 · Hero Directo de Cierre */}
       <LandingHero
         tone="charcoal"
@@ -58,14 +58,9 @@ export default function CompraIntensivo() {
           </>
         }
         actions={
-          <>
-            <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} magnetic>
-              Reservar mi asiento ($297)
-            </CTAButton>
-            <CTAButton href={waLink('Hola, tengo una pregunta sobre el Intensivo MAP-9 antes de comprar.')} variant="ghost">
-              Consultar por WhatsApp
-            </CTAButton>
-          </>
+          <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} className="w-full sm:w-auto" magnetic>
+            Reservar mi asiento ($297)
+          </CTAButton>
         }
       />
 
@@ -169,12 +164,9 @@ export default function CompraIntensivo() {
             <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gold">Oferta Única</span>
             <div className="mt-2 font-display text-5xl font-semibold text-ivory">$297</div>
             <p className="mt-1 text-[13px] text-ivory/50">Incluye Guía MAP-9 interactiva + 14 días de repetición.</p>
-            <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-center">
-              <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} size="lg" className="w-full sm:w-auto">
+            <div className="mt-6">
+              <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} size="lg" className="w-full">
                 Reservar mi asiento ($297)
-              </CTAButton>
-              <CTAButton href={waLink('Hola, quiero inscribirme al Intensivo MAP-9.')} variant="whatsapp" icon={<Icon.Whatsapp />} size="lg" className="w-full sm:w-auto">
-                Inscribirme vía WhatsApp
               </CTAButton>
             </div>
           </div>

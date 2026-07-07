@@ -60,7 +60,7 @@ export default function CompraMentoria() {
   const [checkout, setCheckout] = useState(false)
 
   return (
-    <LandingLayout waMessage="Hola, quiero saber más sobre la Mentoría 1:1 ($3,997).">
+    <LandingLayout hideWhatsApp>
       {/* 1 · Hero Compacto enfocado en la decisión inmediata */}
       <LandingHero
         tone="charcoal"
@@ -83,14 +83,9 @@ export default function CompraMentoria() {
           </>
         }
         actions={
-          <>
-            <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} magnetic>
-              Empezar mi mentoría ($3,997)
-            </CTAButton>
-            <CTAButton href={waLink('Hola, prefiero agendar una llamada de diagnóstico antes de la mentoría.')} variant="ghost">
-              Llamada de diagnóstico gratis
-            </CTAButton>
-          </>
+          <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} className="w-full sm:w-auto" magnetic>
+            Empezar mi mentoría ($3,997)
+          </CTAButton>
         }
       />
 
@@ -153,12 +148,9 @@ export default function CompraMentoria() {
             <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gold">Inscripción Directa</span>
             <div className="mt-2 font-display text-5xl font-semibold text-ivory">$3,997</div>
             <p className="mt-1 text-[13px] text-ivory/50">Incluye soporte diario directo por WhatsApp con Argenis y Carmen.</p>
-            <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-center">
-              <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} size="lg" className="w-full sm:w-auto">
+            <div className="mt-6">
+              <CTAButton onClick={() => setCheckout(true)} icon={<Icon.ArrowRight />} size="lg" className="w-full">
                 Empezar mentoría ($3,997)
-              </CTAButton>
-              <CTAButton href={waLink('Hola, quiero coordinar mi mentoría 1:1.')} variant="whatsapp" icon={<Icon.Whatsapp />} size="lg" className="w-full sm:w-auto">
-                Coordinar por WhatsApp
               </CTAButton>
             </div>
           </div>
