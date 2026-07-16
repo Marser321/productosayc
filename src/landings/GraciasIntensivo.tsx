@@ -263,7 +263,7 @@ export default function GraciasIntensivo() {
               </div>
 
               <div className="mt-7 flex flex-wrap items-center gap-3">
-                <CTAButton to="/l/05-mentoria" icon={<Icon.ArrowRight />}>
+                <CTAButton to="/mentoria" icon={<Icon.ArrowRight />}>
                   Conocer la Mentoría 1:1
                 </CTAButton>
               </div>

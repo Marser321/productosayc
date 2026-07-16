@@ -1,19 +1,15 @@
-import { useState } from 'react'
 import {
   Section,
   Container,
   Kicker,
   SectionHeader,
-  GlassCard,
   CTAButton,
   Icon,
 } from '../components/primitives'
-import { Reveal, Stagger, RevealItem, PinnedSequence } from '../components/motion'
+import { PinnedSequence } from '../components/motion'
 import { RoadmapTimeline, YesNoColumns, FAQAccordion } from '../components/blocks'
 import type { RoadmapModule } from '../components/blocks'
 import { LandingHero, LandingLayout } from '../components/shell'
-import { CheckoutMock } from '../components/forms'
-import { waLink } from '../content/brand'
 import { img, LANDING_BANNER } from '../content/images'
 import { sectionBg } from '../content/section-backgrounds'
 
@@ -130,7 +126,7 @@ export default function CompraMentoria() {
               heading: 'No para ti si…',
               variant: 'negative',
               items: [
-                'Buscas riqueza rápida o rentabilidad 100% garantizada.',
+                'Buscas riqueza rápida o una rentabilidad prometida de antemano.',
                 'No tienes reservas financieras para invertir en bienes raíces.',
                 'Quieres que otros hagan la operación sin involucrarte.',
               ],

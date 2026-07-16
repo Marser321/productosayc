@@ -42,6 +42,12 @@ export const FIGURE_LABELS = {
     'Las reglas de redención, gravámenes, notificación y fees varían por estado y condado; requiere verificación local.',
 } as const
 
+/** Interruptor global de entorno. `true` = demo: muestra el banner "pagos
+ *  simulados" y los toasts de prueba social ILUSTRATIVA. En producción va en
+ *  `false`: sin banner y sin toasts, hasta alimentar la prueba social con
+ *  registros REALES del CRM (fabricar prueba social sería implicación FTC). */
+export const IS_DEMO = false
+
 /** Banner global del entorno: deja claro que es una demo sin cobros reales. */
 export const DEMO_NOTE =
   'Versión de demostración — los formularios y pagos son simulados (sin cobro real).'

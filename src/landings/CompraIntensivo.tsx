@@ -1,19 +1,16 @@
-import { useState } from 'react'
 import {
   Section,
   Container,
   Kicker,
   SectionHeader,
-  GlassCard,
   CTAButton,
   Badge,
   Icon,
 } from '../components/primitives'
-import { Reveal, Stagger, RevealItem } from '../components/motion'
+import { Stagger, RevealItem } from '../components/motion'
 import { MAP9Phases, YesNoColumns, CaseBreakdown, FAQAccordion } from '../components/blocks'
 import { LandingHero, LandingLayout } from '../components/shell'
-import { CheckoutMock } from '../components/forms'
-import { MAP9_PHASES, COHORTE, waLink } from '../content/brand'
+import { MAP9_PHASES, COHORTE } from '../content/brand'
 import { img, LANDING_BANNER } from '../content/images'
 import { sectionBg } from '../content/section-backgrounds'
 import { FIGURE_LABELS } from '../content/compliance'

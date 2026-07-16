@@ -6,6 +6,7 @@ import { Footer } from './Footer'
 import { FloatingWhatsApp } from './FloatingWhatsApp'
 import { LiveActivityToasts } from './LiveActivityToasts'
 import { LANDINGS } from '../../content/registry'
+import { IS_DEMO } from '../../content/compliance'
 
 /** Envuelve cada landing: barra fija + contenido + pie + WhatsApp flotante +
  *  toasts de actividad (prueba social simulada de la demo). `activity=false`
@@ -42,7 +43,7 @@ export function LandingLayout({
       <main>{children}</main>
       <Footer />
       {!hideWhatsApp && <FloatingWhatsApp message={waMessage} />}
-      <LiveActivityToasts enabled={activity} />
+      <LiveActivityToasts enabled={activity && IS_DEMO} />
     </div>
   )
 }

@@ -102,6 +102,17 @@ export const LANDINGS: readonly LandingMeta[] = [
     docTitle: 'Bienvenido al Intensivo — Magic Capital',
   },
   {
+    num: '03',
+    slug: 'ofertas',
+    route: '/ofertas',
+    title: 'Programas y ofertas',
+    subtitle: 'Las 3 ofertas lado a lado: Comunidad, Intensivo y Mentoría',
+    kind: 'sales',
+    thumb: img('03', '03-compra-intensivo__hero-fundadores-sesion-vivo.png'),
+    stageLabel: 'Todas las ofertas',
+    docTitle: 'Programas y ofertas — Magic Capital',
+  },
+  {
     num: '05',
     slug: '05-mentoria',
     route: '/l/05-mentoria',
