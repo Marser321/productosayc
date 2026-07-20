@@ -10,7 +10,7 @@ import {
 import { motion, useReducedMotion } from 'framer-motion'
 import { Reveal } from '../components/motion'
 import { LandingHero, LandingLayout } from '../components/shell'
-import { TestimoniosCarousel } from '../components/blocks'
+import { TestimoniosCarousel, PrecioMasterclass } from '../components/blocks'
 import { LANDING_BANNER } from '../content/images'
 import { TESTIMONIOS_NOTA } from '../content/testimonios'
 import { sectionBg } from '../content/section-backgrounds'
@@ -256,38 +256,15 @@ export default function OfertasCompletas() {
                       y te acompañamos hasta que pujes.
                     </p>
 
-                    {/* Precio: referencia tachada arriba, precio de hoy enorme. */}
+                    {/* Precio con el revelado de la primera visita (ver
+                        PrecioMasterclass: el estado final vive siempre en el DOM). */}
                     <div className="mt-7">
-                      <div className="flex items-center gap-3">
-                        <span className="text-[12px] uppercase tracking-[0.14em] text-ivory/45">
-                          Precio regular
-                        </span>
-                        <span className="font-display text-xl text-ivory/40 line-through decoration-ivory/40">
-                          {fmt(PRECIO.mentoriaRegular)}
-                        </span>
-                      </div>
-                      <div className="mt-1 flex flex-wrap items-end gap-x-3 gap-y-1">
-                        {/* El precio entra con un golpe de escala: llega después del
-                            tachado, que es el orden en que queremos que se lean.
-                            ⚠ El estado inicial NO parte de opacity:0 a propósito. Si
-                            el IntersectionObserver no dispara (pestaña en segundo
-                            plano, navegador viejo, JS a medio cargar), el peor caso
-                            debe ser "el precio no hace el efecto", nunca "no hay
-                            precio". Por eso arranca legible y solo sube de escala. */}
-                        <motion.span
-                          className="font-display text-5xl font-bold leading-none text-gold-metallic sm:text-6xl"
-                          initial={reduce ? undefined : { opacity: 0.55, scale: 0.88 }}
-                          whileInView={reduce ? undefined : { opacity: 1, scale: 1 }}
-                          viewport={{ once: true, margin: '-15% 0px' }}
-                          transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-                        >
-                          {fmt(PRECIO.mentoriaHoy)}
-                        </motion.span>
-                        <span className="pb-1 text-[13px] font-semibold text-gold-bright">
-                          hoy, desde la masterclass
-                        </span>
-                      </div>
-                      <p className="mt-2 text-[13px] text-ivory/60">
+                      <PrecioMasterclass
+                        regular={PRECIO.mentoriaRegular}
+                        hoy={PRECIO.mentoriaHoy}
+                        fmt={fmt}
+                      />
+                      <p className="mt-3 text-[13px] text-ivory/60">
                         Ahorras {fmt(ahorroMasterclass)} sobre el precio regular.
                       </p>
                       {/* Justificación del precio tachado. Vivía en el FAQ, que se
