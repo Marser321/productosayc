@@ -10,7 +10,9 @@ import {
 import { motion, useReducedMotion } from 'framer-motion'
 import { Reveal } from '../components/motion'
 import { LandingHero, LandingLayout } from '../components/shell'
+import { TestimoniosCarousel } from '../components/blocks'
 import { LANDING_BANNER } from '../content/images'
+import { TESTIMONIOS_NOTA } from '../content/testimonios'
 import { sectionBg } from '../content/section-backgrounds'
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -423,7 +425,26 @@ export default function OfertasCompletas() {
         </Container>
       </Section>
 
-      {/* 3 · Comparativa a 2 columnas (la Comunidad no se ofrece en esta página) */}
+      {/* 3 · Testimonios en video. Van DESPUÉS de los planes a propósito: primero
+             la oferta, después la prueba que la sostiene, y de ahí a la
+             comparativa para cerrar la decisión. */}
+      <Section tone="ivory" pad="md" texture={sectionBg('03-compra-intensivo', 3)}>
+        <Container>
+          <SectionHeader
+            kicker="Historias reales"
+            title="Alumnos de Carmen y Argenis"
+            intro="Sus propias palabras, sin guion. Desliza para ver todos."
+          />
+          <div className="mt-8">
+            <TestimoniosCarousel />
+          </div>
+          <p className="mx-auto mt-6 max-w-2xl text-center text-[12px] leading-snug text-ivory/45">
+            {TESTIMONIOS_NOTA}
+          </p>
+        </Container>
+      </Section>
+
+      {/* 4 · Comparativa a 2 columnas (la Comunidad no se ofrece en esta página) */}
       <Section tone="charcoal" pad="md">
         <Container width="narrow">
           <SectionHeader tone="dark" kicker="Comparativa" title="Los dos programas, lado a lado" />
