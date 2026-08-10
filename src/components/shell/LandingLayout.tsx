@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { UrgencyBar } from './UrgencyBar'
+import { BrandBar } from './BrandBar'
 import { Footer } from './Footer'
 import { FloatingWhatsApp } from './FloatingWhatsApp'
 import { LiveActivityToasts } from './LiveActivityToasts'
@@ -40,6 +41,7 @@ export function LandingLayout({
   return (
     <div className="min-h-screen bg-midnight">
       <UrgencyBar />
+      <BrandBar />
       <main>{children}</main>
       <Footer />
       {!hideWhatsApp && <FloatingWhatsApp message={waMessage} />}

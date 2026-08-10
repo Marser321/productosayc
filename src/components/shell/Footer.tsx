@@ -1,5 +1,6 @@
 import { Container } from '../primitives/Container'
 import { Disclaimer } from '../primitives/Disclaimer'
+import { Logo } from '../primitives/Logo'
 import { BRAND, FOUNDERS } from '../../content/brand'
 import { DEMO_NOTE, IS_DEMO } from '../../content/compliance'
 
@@ -11,7 +12,8 @@ export function Footer() {
     <footer className="bg-midnight text-ivory">
       <Container className="py-12">
         <div className="flex flex-col items-center gap-1.5 text-center">
-          <div className="font-display text-xl font-semibold">{BRAND.name}</div>
+          {/* Cierre de marca: el lockup grande es lo último que se ve de la página. */}
+          <Logo size="lg" layout="stack" className="mb-2" />
           <p className="max-w-sm text-[13.5px] leading-snug text-ivory/60">{BRAND.tagline}</p>
           <p className="text-[13px] text-ivory/55">
             {FOUNDERS.argenis.name} &amp; {FOUNDERS.carmen.name}

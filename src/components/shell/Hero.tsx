@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Container } from '../primitives/Container'
+import { LogoMark } from '../primitives/Logo'
 import { VideoBackground, type Scrim } from '../media'
 import { DepthBackground } from '../media'
 import { Spotlight } from '../media'
@@ -36,11 +37,17 @@ export function Hero({
   const toneClass =
     tone === 'charcoal' ? 'bg-midnight text-ivory' : tone === 'petrol' ? 'bg-navy text-ivory' : 'bg-navy text-ivory'
 
-  // Quitada la barra de demo (LandingChrome). El único elemento fijo arriba es la
-  // UrgencyBar, y solo en rutas con deadline (01/03): ahí el hero la despeja; en el
-  // resto arranca cerca del borde con un respiro.
+  // El único elemento FIJO arriba es la UrgencyBar (solo en rutas con deadline).
+  // Desde que existe la `BrandBar` —que va en el flujo y ya reserva la altura de
+  // la UrgencyBar—, el hero NO tiene que despejar nada: arranca justo debajo del
+  // logo. Lo que sí cambia con `hasBar` es la altura del cromo que queda por
+  // encima (BrandBar 56/64 px, más 50/54 px de UrgencyBar cuando la hay): el hero
+  // a-pantalla la descuenta para que el CTA siga cayendo dentro del primer fold.
   const { pathname } = useLocation()
   const hasBar = Boolean(DEADLINES[pathname])
+  const fillMinH = hasBar
+    ? 'min-h-[calc(100svh-106px)] sm:min-h-[calc(100svh-118px)]'
+    : 'min-h-[calc(100svh-56px)] sm:min-h-[calc(100svh-64px)]'
 
   // Drop-in: VideoBackground muestra el poster (la imagen) hoy; cuando se generen
   // los loops M1–M5 basta con pasar `image.video` y reproduce el bucle cinematográfico.
@@ -66,11 +73,18 @@ export function Hero({
           <div className="absolute inset-0">{bg}</div>
         ))}
       {dark && <Spotlight />}
+      {/* Filigrana del isotipo: presencia de marca en el hero sin repetir el
+       *  lockup que ya está en la BrandBar justo encima. Decorativa y por debajo
+       *  del contenido (z-0 bajo el Container z-10), nunca intercepta clics. */}
+      {dark && (
+        <LogoMark className="pointer-events-none absolute -bottom-10 -right-10 z-0 h-64 opacity-[0.06] sm:-bottom-16 sm:-right-16 sm:h-96" />
+      )}
       <Container
         className={cn(
+          'relative z-10',
           fillViewport
-            ? 'flex min-h-svh flex-col pt-16 pb-8 sm:pt-20'
-            : cn('pb-16 sm:pb-24', hasBar ? 'pt-24 sm:pt-28' : 'pt-14 sm:pt-20'),
+            ? cn('flex flex-col pt-8 pb-6 sm:pt-12', fillMinH)
+            : 'pb-16 sm:pb-24 pt-12 sm:pt-16',
         )}
       >
         {children}
