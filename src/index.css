@@ -20,6 +20,10 @@
 
 html {
   scroll-behavior: smooth;
+  /* Fondo oscuro en el <html>, no solo en el <body>: embebido en un iframe, si
+     el iframe queda un poco más alto que el contenido, el sobrante mostraba el
+     blanco del <html> (franja blanca al pie). Con esto ese sobrante es oscuro. */
+  background: var(--midnight);
 }
 
 body {
@@ -74,6 +78,84 @@ body {
   pointer-events: none;
   opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Coreografía viva de la tarjeta Mentoría (loop compartido de 7s) ──
+   1) .card-beam: un haz cálido recorre el borde de la tarjeta (conic-gradient
+      girado por --beam-angle, recortado a un anillo de 2px con mask).
+   2) .cta-pulse: cuando el haz pasa por la zona del CTA (~55% del ciclo, el
+      borde inferior), el botón de contado emite un anillo de pulso. Solo anima
+      box-shadow para no pisar el translate del hover del botón.
+   3) .card-breathe: la sombra dorada de la tarjeta respira en el mismo ciclo.
+   Todo es brillo metálico de marca (pico dorado claro), no neón fluorescente.
+   Con prefers-reduced-motion el bloque de arriba congela los tres. */
+
+@property --beam-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes beam-orbit {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+.card-beam {
+  position: absolute;
+  inset: 0;
+  /* Vive DENTRO de la tarjeta (que recorta con overflow-hidden y se levanta en
+     hover): inset-0 es el borde interior del border-2, de ahí el radio restado. */
+  border-radius: calc(1rem - 2px);
+  padding: 2px; /* mismo grosor que el border-2 al que se superpone */
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0deg,
+    transparent 300deg,
+    rgba(227, 199, 122, 0.55) 332deg,
+    #f4e3b2 348deg,
+    transparent 360deg
+  );
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  animation: beam-orbit 7s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes cta-pulse {
+  0%,
+  50%,
+  76%,
+  100% {
+    box-shadow: 0 12px 30px -10px rgba(201, 162, 75, 0.5);
+  }
+  56% {
+    box-shadow: 0 0 0 0 rgba(227, 199, 122, 0.55), 0 12px 30px -10px rgba(201, 162, 75, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(227, 199, 122, 0), 0 16px 36px -10px rgba(201, 162, 75, 0.7);
+  }
+}
+
+.cta-pulse {
+  animation: cta-pulse 7s ease-in-out infinite;
+}
+
+@keyframes card-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 1px rgba(201, 162, 75, 0.35), 0 14px 40px -16px rgba(201, 162, 75, 0.4);
+  }
+  55% {
+    box-shadow: 0 0 0 1px rgba(201, 162, 75, 0.55), 0 22px 60px -18px rgba(201, 162, 75, 0.55);
+  }
+}
+
+.card-breathe {
+  animation: card-breathe 7s ease-in-out infinite;
 }
 
 ::selection {

@@ -19,11 +19,17 @@ export function LandingLayout({
   waMessage,
   activity = true,
   hideWhatsApp = false,
+  fullHeight = true,
 }: {
   children: ReactNode
   waMessage?: string
   activity?: boolean
   hideWhatsApp?: boolean
+  /** `min-h-screen` en la raíz. Se apaga (false) al embeber en un iframe (p. ej.
+   *  la página de gracias): con `min-h-screen`, dentro del iframe la página se
+   *  estira a la altura del iframe (100vh) y el auto-ajuste no puede calzar al
+   *  contenido. Sin él, el alto es exactamente el del contenido. */
+  fullHeight?: boolean
 }) {
   const { pathname } = useLocation()
 
@@ -39,7 +45,7 @@ export function LandingLayout({
   }, [pathname])
 
   return (
-    <div className="min-h-screen bg-midnight">
+    <div className={`${fullHeight ? 'min-h-screen ' : ''}bg-midnight`}>
       <UrgencyBar />
       <BrandBar />
       <main>{children}</main>
