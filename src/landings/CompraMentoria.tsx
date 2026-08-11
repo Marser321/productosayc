@@ -7,9 +7,10 @@ import {
   Icon,
 } from '../components/primitives'
 import { PinnedSequence } from '../components/motion'
-import { RoadmapTimeline, YesNoColumns, FAQAccordion } from '../components/blocks'
+import { RoadmapTimeline, YesNoColumns, FAQAccordion, PagoCTA } from '../components/blocks'
 import type { RoadmapModule } from '../components/blocks'
 import { LandingHero, LandingLayout } from '../components/shell'
+import { PRECIO, PAY, fmt } from '../content/pagos'
 import { img, LANDING_BANNER } from '../content/images'
 import { sectionBg } from '../content/section-backgrounds'
 
@@ -49,7 +50,7 @@ const MODULES: RoadmapModule[] = [
 const FAQ = [
   { q: '¿Por qué la mentoría es 1:1?', a: 'Porque analizar subastas y estructurar crédito de forma correcta requiere conocer a detalle tu perfil financiero, metas y el mercado que elijas. No es un videocurso pregrabado.' },
   { q: '¿Qué garantía incluye el programa?', a: 'Nuestro compromiso está atado a tu ejecución y al método. Si asistes a tus sesiones y completas los hitos de los módulos, te acompañamos hasta cerrar el proceso.' },
-  { q: '¿Se puede abonar en cuotas?', a: 'El pago estándar es único por $3,997. Si prefieres un plan de pago fraccionado de forma directa sin intereses, consúltalo con nosotros por WhatsApp.' },
+  { q: '¿Se puede abonar en cuotas?', a: 'El pago estándar es único por $10,000. En el checkout puedes dividirlo con Klarna o Afterpay; si prefieres otra modalidad, consúltalo con nosotros por WhatsApp.' },
 ]
 
 export default function CompraMentoria() {
@@ -72,14 +73,16 @@ export default function CompraMentoria() {
           <>
             Argenis te guía por el Método MAP-9 y la compra de tu subasta tax deed. Carmen estructura tu empresa y crédito empresarial al 0% para apalancarla.
             <span className="mt-3 block text-[15px] font-semibold text-gold">
-              Inversión única: $3,997
+              Inversión única: {fmt(PRECIO.mentoria)}
             </span>
           </>
         }
         actions={
-          <CTAButton href="https://link.fastpaydirect.com/payment-link/6a4d2612c981f3feae6e7e2d" icon={<Icon.ArrowRight />} className="w-full sm:w-auto" magnetic>
-            Empezar mi mentoría ($3,997)
-          </CTAButton>
+          <div className="w-full sm:w-auto">
+            <PagoCTA href={PAY.mentoria}>
+              Empezar mi mentoría ({fmt(PRECIO.mentoria)})
+            </PagoCTA>
+          </div>
         }
       />
 
@@ -140,12 +143,14 @@ export default function CompraMentoria() {
         <Container width="narrow">
           <div className="rounded-2xl border border-gold/30 bg-navy p-6 text-center shadow-gold-ring">
             <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gold">Inscripción Directa</span>
-            <div className="mt-2 font-display text-5xl font-semibold text-ivory">$3,997</div>
+            <div className="mt-2 font-display text-5xl font-semibold text-ivory">
+              {fmt(PRECIO.mentoria)}
+            </div>
             <p className="mt-1 text-[13px] text-ivory/50">Incluye soporte diario directo por WhatsApp con Argenis y Carmen.</p>
             <div className="mt-6">
-              <CTAButton href="https://link.fastpaydirect.com/payment-link/6a4d2612c981f3feae6e7e2d" size="lg" className="w-full">
-                Empezar mentoría ($3,997)
-              </CTAButton>
+              <PagoCTA href={PAY.mentoria}>
+                Empezar mentoría ({fmt(PRECIO.mentoria)})
+              </PagoCTA>
             </div>
           </div>
           <div className="mt-10">

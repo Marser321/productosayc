@@ -35,6 +35,12 @@ export const CONTACT = {
   email: 'hola@magiccapital.example',
   // Deck de la masterclass (proyecto hermano) — producción en Vercel.
   deckUrl: 'https://magic-capital-deck.vercel.app',
+  // ⚠ PLACEHOLDER — enlace de invitación al grupo de WhatsApp donde el equipo se
+  // comunica con quienes compran (avisos, cuándo empiezan, qué comparten). Es el
+  // único CTA de las páginas de gracias sencillas. Sustituir por el invite real
+  // (formato https://chat.whatsapp.com/XXXXXXXX). Mientras sea '#', el botón no
+  // navega a ningún lado a propósito, para no mandar a un grupo inexistente.
+  grupoUrl: '#',
 } as const
 
 // Datos de cohorte — valores DEMO ilustrativos, centralizados aquí para
@@ -143,14 +149,14 @@ export const FUNNEL: Record<string, Tier> = {
   intensivo: {
     id: 'intensivo',
     name: 'Intensivo MAP-9',
-    price: '$297',
+    price: '$347',
     priceNote: 'viernes + sábado · en vivo · cupos limitados',
-    cta: 'Reservar mi asiento del intensivo ($297)',
+    cta: 'Reservar mi asiento del intensivo ($347)',
   },
   mentoria: {
     id: 'mentoria',
     name: 'Mentoría 1:1 Magic Capital',
-    price: '$3,997',
+    price: '$10,000',
     priceNote: 'pago único · 3 módulos · acompañamiento 1:1',
     cta: 'Empezar mi mentoría',
   },

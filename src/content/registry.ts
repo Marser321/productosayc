@@ -85,9 +85,9 @@ export const LANDINGS: readonly LandingMeta[] = [
     title: 'Intensivo MAP-9',
     subtitle: 'De mirar listados a ejecutar tu primera subasta',
     kind: 'sales',
-    price: '$297',
+    price: '$347',
     thumb: img('03', '03-compra-intensivo__hero-fundadores-sesion-vivo.png'),
-    stageLabel: 'Intensivo $297',
+    stageLabel: 'Intensivo $347',
     docTitle: 'Intensivo MAP-9 — Magic Capital',
   },
   {
@@ -119,9 +119,9 @@ export const LANDINGS: readonly LandingMeta[] = [
     title: 'Mentoría 1:1',
     subtitle: 'Acompañamiento privado hasta tu primera subasta',
     kind: 'sales',
-    price: '$3,997',
+    price: '$10,000',
     thumb: img('05', '05-compra-mentoria__hero-fundadores-revisando-portal.png'),
-    stageLabel: 'Mentoría $3,997',
+    stageLabel: 'Mentoría $10,000',
     docTitle: 'Mentoría 1:1 — Magic Capital',
   },
   {

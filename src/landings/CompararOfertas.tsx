@@ -11,7 +11,8 @@ import {
 } from '../components/primitives'
 import { Reveal, Stagger, RevealItem } from '../components/motion'
 import { LandingHero, LandingLayout } from '../components/shell'
-import { FAQAccordion, YesNoColumns } from '../components/blocks'
+import { FAQAccordion, YesNoColumns, PagoCTA } from '../components/blocks'
+import { PRECIO, PAY, fmt } from '../content/pagos'
 import { LANDING_BANNER } from '../content/images'
 import { sectionBg } from '../content/section-backgrounds'
 
@@ -30,7 +31,7 @@ const COMPARACION = [
 const FAQ = [
   {
     q: '¿Puedo empezar con el Intensivo y pasar a la Mentoría después?',
-    a: 'Sí. El 100% de la inversión de tu ticket del Intensivo ($297) se tomará a cuenta si decides aplicar a la Mentoría Privada 1:1 dentro del plazo límite establecido tras la sesión.',
+    a: 'Sí. El 100% de la inversión de tu ticket del Intensivo ($347) se tomará a cuenta si decides aplicar a la Mentoría Privada 1:1 dentro del plazo límite establecido tras la sesión.',
   },
   {
     q: '¿La Mentoría 1:1 garantiza que aprueben mi crédito?',
@@ -124,7 +125,7 @@ export default function CompararOfertas() {
                     Aprende el método paso a paso en vivo durante un fin de semana completo y llévate las herramientas necesarias para empezar a operar por tu cuenta.
                   </p>
                   <div className="mt-6 font-display text-4xl font-bold text-gold-metallic">
-                    $297
+                    {fmt(PRECIO.intensivo)}
                   </div>
                   <p className="text-[12px] text-ivory/40 mt-1">Inversión única · Acceso inmediato al área de miembros</p>
 
@@ -140,15 +141,9 @@ export default function CompararOfertas() {
                   </ul>
                 </div>
 
-                <CTAButton 
-                  href="https://link.fastpaydirect.com/payment-link/6a4d2644c981f3feae6e7e2f" 
-                  icon={<Icon.ArrowRight />} 
-                  size="lg" 
-                  className="w-full"
-                  magnetic
-                >
-                  Reservar mi asiento ($297)
-                </CTAButton>
+                <PagoCTA href={PAY.intensivo}>
+                  Reservar mi asiento ({fmt(PRECIO.intensivo)})
+                </PagoCTA>
               </GlassCard>
             </Reveal>
 
@@ -164,7 +159,7 @@ export default function CompararOfertas() {
                     Trabaja directamente con Argenis y Carmen en tus subastas y crédito. Te estructuramos la empresa y te acompañamos hasta pujar con criterio real.
                   </p>
                   <div className="mt-6 font-display text-4xl font-bold text-gold-metallic">
-                    $3,997
+                    {fmt(PRECIO.mentoria)}
                   </div>
                   <p className="text-[12px] text-ivory/40 mt-1">Inversión única · Soporte directo e individual</p>
 
@@ -180,16 +175,9 @@ export default function CompararOfertas() {
                   </ul>
                 </div>
 
-                <CTAButton 
-                  href="https://link.fastpaydirect.com/payment-link/6a4d2612c981f3feae6e7e2d" 
-                  variant="primary" 
-                  icon={<Icon.ArrowRight />} 
-                  size="lg" 
-                  className="w-full"
-                  magnetic
-                >
-                  Empezar mentoría ($3,997)
-                </CTAButton>
+                <PagoCTA href={PAY.mentoria}>
+                  Empezar mentoría ({fmt(PRECIO.mentoria)})
+                </PagoCTA>
               </GlassCard>
             </Reveal>
 

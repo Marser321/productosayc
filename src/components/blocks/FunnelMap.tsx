@@ -6,8 +6,8 @@ type Step = { id: string; name: string; price: string }
 const STEPS: Step[] = [
   { id: 'masterclass', name: 'Masterclass', price: 'Gratis' },
   { id: 'comunidad', name: 'Comunidad', price: '$27/mes' },
-  { id: 'intensivo', name: 'Intensivo MAP-9', price: '$297' },
-  { id: 'mentoria', name: 'Mentoría 1:1', price: '$3,997' },
+  { id: 'intensivo', name: 'Intensivo MAP-9', price: '$347' },
+  { id: 'mentoria', name: 'Mentoría 1:1', price: '$10,000' },
 ]
 
 /**

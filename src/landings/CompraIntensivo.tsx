@@ -8,9 +8,10 @@ import {
   Icon,
 } from '../components/primitives'
 import { Stagger, RevealItem } from '../components/motion'
-import { MAP9Phases, YesNoColumns, CaseBreakdown, FAQAccordion } from '../components/blocks'
+import { MAP9Phases, YesNoColumns, CaseBreakdown, FAQAccordion, PagoCTA } from '../components/blocks'
 import { LandingHero, LandingLayout } from '../components/shell'
 import { MAP9_PHASES, COHORTE } from '../content/brand'
+import { PRECIO, PAY, fmt } from '../content/pagos'
 import { img, LANDING_BANNER } from '../content/images'
 import { sectionBg } from '../content/section-backgrounds'
 import { FIGURE_LABELS } from '../content/compliance'
@@ -48,14 +49,16 @@ export default function CompraIntensivo() {
           <>
             Viernes, el capital con Carmen; sábado, las 9 fases del MAP-9 con Argenis. Llévate la Guía MAP-9 interactiva y comienza a operar.
             <span className="mt-3 block text-[15px] font-semibold text-gold">
-              Inversión única: $297 · Cupos limitados
+              Inversión única: {fmt(PRECIO.intensivo)} · Cupos limitados
             </span>
           </>
         }
         actions={
-          <CTAButton href="https://link.fastpaydirect.com/payment-link/6a4d2644c981f3feae6e7e2f" icon={<Icon.ArrowRight />} className="w-full sm:w-auto" magnetic>
-            Reservar mi asiento ($297)
-          </CTAButton>
+          <div className="w-full sm:w-auto">
+            <PagoCTA href={PAY.intensivo}>
+              Reservar mi asiento ({fmt(PRECIO.intensivo)})
+            </PagoCTA>
+          </div>
         }
       />
 
@@ -157,12 +160,14 @@ export default function CompraIntensivo() {
         <Container width="narrow">
           <div className="rounded-2xl border border-gold/30 bg-navy p-6 text-center shadow-gold-ring">
             <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gold">Oferta Única</span>
-            <div className="mt-2 font-display text-5xl font-semibold text-ivory">$297</div>
+            <div className="mt-2 font-display text-5xl font-semibold text-ivory">
+              {fmt(PRECIO.intensivo)}
+            </div>
             <p className="mt-1 text-[13px] text-ivory/50">Incluye Guía MAP-9 interactiva + 14 días de repetición.</p>
             <div className="mt-6">
-              <CTAButton href="https://link.fastpaydirect.com/payment-link/6a4d2644c981f3feae6e7e2f" size="lg" className="w-full">
-                Reservar mi asiento ($297)
-              </CTAButton>
+              <PagoCTA href={PAY.intensivo}>
+                Reservar mi asiento ({fmt(PRECIO.intensivo)})
+              </PagoCTA>
             </div>
           </div>
           <div className="mt-10">

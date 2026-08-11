@@ -10,9 +10,10 @@ import {
 import { motion, useReducedMotion } from 'framer-motion'
 import { Reveal } from '../components/motion'
 import { LandingHero, LandingLayout } from '../components/shell'
-import { TestimoniosCarousel, PrecioMasterclass } from '../components/blocks'
+import { TestimoniosCarousel, PagoCTA } from '../components/blocks'
+import { PRECIO, PAY, fmt } from '../content/pagos'
 import { LANDING_BANNER } from '../content/images'
-import { TESTIMONIOS_NOTA } from '../content/testimonios'
+import { TESTIMONIOS_NOTA, TESTIMONIOS_OFERTAS } from '../content/testimonios'
 import { sectionBg } from '../content/section-backgrounds'
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -26,45 +27,6 @@ import { sectionBg } from '../content/section-backgrounds'
 //  alternativa sobria. El peso visual lo carga la grilla 3/2 + el tratamiento
 //  dorado, no un tamaño de fuente mayor.
 // ─────────────────────────────────────────────────────────────────────────
-
-/**
- * Links de pago del CRM.
- *
- * ⚠ Los dos de la Mentoría están PENDIENTES: los links viejos de FastPayDirect
- * cobran $3,997, que ya no es el precio. Dejarlos cableados aquí cobraría de
- * más. Mientras estén vacíos, su CTA se renderiza deshabilitado a propósito —
- * es preferible un botón inerte a un cobro equivocado. Completar con los links
- * nuevos del menulink del CRM y borrar este aviso.
- */
-const PAY = {
-  /** Real y vivo: el Intensivo mantiene precio, así que su link sigue sirviendo. */
-  intensivo: 'https://link.fastpaydirect.com/payment-link/6a4d2644c981f3feae6e7e2f',
-  /** TODO(cliente): menulink de $3,497 con los métodos de pago en cuotas del CRM. */
-  mentoriaContado: '',
-  /** TODO(cliente): link del primer pago de $997 del plan de financiación propia. */
-  mentoriaFinanciacion: '',
-}
-
-/** Precios en un solo lugar: los usa la tarjeta, la comparativa y el FAQ. */
-const PRECIO = {
-  /** Precio de referencia de la Mentoría fuera de la masterclass. */
-  mentoriaRegular: 5000,
-  /** Precio exclusivo para quien viene de la masterclass. */
-  mentoriaHoy: 3497,
-  /** Primer pago del plan financiado por Carmen y Argenis. */
-  financiacionInicial: 997,
-  /** Pagos restantes del plan financiado (escalonados desde el CRM). */
-  financiacionCuotas: 3,
-  intensivo: 297,
-}
-
-const fmt = (n: number) => `$${n.toLocaleString('en-US')}`
-
-/** Total del plan financiado y su recargo frente a pagar de una. */
-const financiadoTotal =
-  PRECIO.financiacionInicial * (PRECIO.financiacionCuotas + 1)
-const recargoFinanciacion = financiadoTotal - PRECIO.mentoriaHoy
-const ahorroMasterclass = PRECIO.mentoriaRegular - PRECIO.mentoriaHoy
 
 const MENTORIA_INCLUYE = [
   'Sesiones privadas 1:1 con Argenis y Carmen',
@@ -93,7 +55,6 @@ const COMPARACION: { feat: string; intensivo: Cell; mentoria: Cell }[] = [
   { feat: 'Acompañamiento hasta tu primera subasta', intensivo: false, mentoria: true },
   { feat: 'Biblioteca de recursos y grabaciones', intensivo: '14 días', mentoria: 'De por vida' },
   { feat: 'Soporte', intensivo: 'Grupal', mentoria: 'Diario 1:1 (L-V)' },
-  { feat: 'Financiación propia de Carmen y Argenis', intensivo: false, mentoria: true },
 ]
 
 
@@ -110,48 +71,31 @@ function CompareCell({ value, gold = false }: { value: Cell; gold?: boolean }) {
 }
 
 /**
- * CTA de pago que se niega a cobrar mal: sin link configurado no navega a
- * ningún lado y lo dice en pantalla, en vez de caer al link del precio viejo.
+ * Badges de Klarna y Afterpay con los colores de marca de cada proveedor
+ * (rosa #FFB3C7 y menta #B2FCE4). Son pills tipográficas, no assets: se
+ * reconocen como los logos sin cargar imágenes externas, y quedan siempre
+ * visibles aunque el link de pago aún esté pendiente — el cliente revisa el
+ * visual antes de cablear el menulink.
  */
-function PagoCTA({
-  href,
-  children,
-  variant = 'primary',
-  className,
-}: {
-  href: string
-  children: React.ReactNode
-  variant?: 'primary' | 'secondary'
-  className?: string
-}) {
-  if (!href) {
-    return (
-      <div className={className}>
-        <CTAButton
-          variant={variant}
-          size="lg"
-          className="w-full cursor-not-allowed opacity-50"
-          onClick={() => {}}
-        >
-          {children}
-        </CTAButton>
-        <p className="mt-2 text-center text-[11px] text-ivory/45">
-          Link de pago pendiente de configurar.
-        </p>
-      </div>
-    )
-  }
+function BadgeKlarna() {
   return (
-    <CTAButton
-      href={href}
-      variant={variant}
-      size="lg"
-      icon={<Icon.ArrowRight />}
-      className={`w-full ${className ?? ''}`}
-      magnetic={variant === 'primary'}
+    <span
+      aria-label="Klarna"
+      className="inline-flex h-7 items-center rounded-md bg-[#FFB3C7] px-3 font-sans text-[13px] font-bold tracking-tight text-black"
     >
-      {children}
-    </CTAButton>
+      Klarna.
+    </span>
+  )
+}
+
+function BadgeAfterpay() {
+  return (
+    <span
+      aria-label="Afterpay"
+      className="inline-flex h-7 items-center rounded-md bg-[#B2FCE4] px-3 font-sans text-[13px] font-bold lowercase tracking-tight text-black"
+    >
+      afterpay
+    </span>
   )
 }
 
@@ -181,7 +125,7 @@ export default function OfertasCompletas() {
           scrim: 'full',
         }}
         banner={{ src: LANDING_BANNER['03'], alt: 'Magic Capital — Programas', ratio: '4x5' }}
-        kicker={<Kicker>Oferta especial de la masterclass</Kicker>}
+        kicker={<Kicker>Programas de Magic Capital</Kicker>}
         title={<>Elige cómo quieres llegar a tu primera subasta.</>}
         sub={
           <>
@@ -204,16 +148,17 @@ export default function OfertasCompletas() {
         <Container>
           <SectionHeader
             kicker="Tu próximo paso"
-            title="La Mentoría 1:1, al precio de la masterclass"
-            intro="Es el único momento en que la Mentoría Privada está disponible en estas condiciones."
+            title="Elige el camino con el que vas a ejecutar"
+            intro="La Mentoría Privada 1:1 si quieres que trabajemos contigo hasta tu primera subasta; el Intensivo MAP-9 si prefieres el método y ejecutar por tu cuenta."
           />
 
           <div className="mt-10 grid items-start gap-6 lg:grid-cols-5">
             {/* ── MENTORÍA · protagonista ───────────────────────────────── */}
             <Reveal className="flex lg:col-span-3">
               <div className="group relative w-full">
-                {/* Glow superior que RESPIRA: es el efecto que más separa la tarjeta
-                    del fondo y el único con loop permanente en la página — el
+                {/* Glow superior que RESPIRA. Junto con el haz del borde, el pulso
+                    del CTA y la respiración de la sombra (index.css, ciclo de 7s)
+                    forman el único conjunto de loops permanentes de la página — el
                     Intensivo no lleva nada equivalente, y ahí está la jerarquía. */}
                 <motion.div
                   aria-hidden
@@ -226,9 +171,12 @@ export default function OfertasCompletas() {
                     dorado llegaba a reemplazar el navy base en lugar de superponerse).
                     El fondo es navy sólido + un velo dorado por gradiente. */}
                 <motion.div
-                  className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border-2 border-gold/50 bg-navy-soft bg-[linear-gradient(rgba(201,162,75,0.06),rgba(201,162,75,0.02))] p-7 text-ivory shadow-gold-ring sm:p-9"
+                  className="card-breathe relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border-2 border-gold/50 bg-navy-soft bg-[linear-gradient(rgba(201,162,75,0.06),rgba(201,162,75,0.02))] p-7 text-ivory shadow-gold-ring sm:p-9"
                   whileHover={reduce ? undefined : { y: -6, transition: { duration: 0.28 } }}
                 >
+                  {/* Haz que recorre el borde en loop (ver .card-beam). Se omite
+                      del todo con reduced-motion: congelado es solo una mancha. */}
+                  {!reduce && <span aria-hidden className="card-beam" />}
                   {/* Barrido de luz dorada al pasar el cursor. pointer-events-none
                       para no robarle el clic a los CTA que están debajo. */}
                   {!reduce && (
@@ -244,7 +192,7 @@ export default function OfertasCompletas() {
                       transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
                     >
                       <Icon.Star className="text-xs" />
-                      Precio exclusivo de la masterclass
+                      El acompañamiento más completo
                     </motion.div>
 
                     <h3 className="mt-4 font-display text-3xl font-semibold text-ivory sm:text-4xl">
@@ -256,24 +204,22 @@ export default function OfertasCompletas() {
                       y te acompañamos hasta que pujes.
                     </p>
 
-                    {/* Precio con el revelado de la primera visita (ver
-                        PrecioMasterclass: el estado final vive siempre en el DOM). */}
+                    {/* Precio ÚNICO, sin tachado ni "hoy": esta vez no hay
+                        descuento (decisión del cliente 2026-08-11). Sin precio de
+                        referencia no hay nada que justificar ante la FTC, así que
+                        el bloque es deliberadamente simple. */}
                     <div className="mt-7">
-                      <PrecioMasterclass
-                        regular={PRECIO.mentoriaRegular}
-                        hoy={PRECIO.mentoriaHoy}
-                        fmt={fmt}
-                      />
+                      <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
+                        <span className="font-display text-5xl font-bold leading-none text-gold-metallic sm:text-6xl">
+                          {fmt(PRECIO.mentoria)}
+                        </span>
+                        <span className="pb-1 text-[13px] font-semibold text-gold-bright">
+                          inversión única
+                        </span>
+                      </div>
                       <p className="mt-3 text-[13px] text-ivory/60">
-                        Ahorras {fmt(ahorroMasterclass)} sobre el precio regular.
-                      </p>
-                      {/* Justificación del precio tachado. Vivía en el FAQ, que se
-                          quitó: un precio de referencia sin explicar al lado es
-                          justo lo que la FTC mira en un descuento. */}
-                      <p className="mt-1.5 text-[12px] leading-snug text-ivory/45">
-                        {fmt(PRECIO.mentoriaRegular)} es el precio al que ofrecemos la Mentoría 1:1
-                        fuera de este lanzamiento. {fmt(PRECIO.mentoriaHoy)} es una condición
-                        exclusiva para quienes vienen de la masterclass.
+                        Cupos limitados: trabajamos con pocas personas a la vez para poder
+                        acompañarlas de verdad.
                       </p>
                     </div>
 
@@ -289,54 +235,33 @@ export default function OfertasCompletas() {
                     </ul>
                   </div>
 
-                  {/* Dos formas de pagar, la financiación propia como bloque aparte
-                      para que se lea como una oferta y no como letra chica. */}
-                  <div className="mt-8 space-y-4">
+                  {/* Una sola forma de pagar: la financiación directa de Carmen y
+                      Argenis salió de esta página (decisión del cliente
+                      2026-08-11, junto con el precio único de $10,000). Quien
+                      necesite dividir el pago lo hace con Klarna/Afterpay desde
+                      el mismo checkout. */}
+                  <div className="mt-8">
                     <div>
-                      <PagoCTA href={PAY.mentoriaContado}>
-                        Empezar ahora · {fmt(PRECIO.mentoriaHoy)}
-                      </PagoCTA>
-                      {PAY.mentoriaContado && (
-                        <p className="mt-2 text-center text-[11.5px] text-ivory/50">
-                          Pago único o en cuotas con los métodos de nuestra pasarela.
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <span className="h-px flex-1 bg-white/10" />
-                      <span className="text-[11px] uppercase tracking-[0.14em] text-ivory/40">
-                        o
-                      </span>
-                      <span className="h-px flex-1 bg-white/10" />
-                    </div>
-
-                    <div className="rounded-xl border border-gold/25 bg-gold/[0.05] p-5">
-                      <div className="flex items-start gap-2.5">
-                        <Icon.Sparkles className="mt-0.5 shrink-0 text-base text-gold" />
-                        <div>
-                          <p className="text-[13px] font-semibold uppercase tracking-[0.1em] text-gold-bright">
-                            Financiación directa de Carmen y Argenis
-                          </p>
-                          <p className="mt-1.5 text-[13.5px] leading-relaxed text-ivory/75">
-                            Empiezas con {fmt(PRECIO.financiacionInicial)} y los{' '}
-                            {PRECIO.financiacionCuotas} pagos restantes de{' '}
-                            {fmt(PRECIO.financiacionInicial)} quedan programados de forma escalonada.
-                            Sin banco de por medio.
-                          </p>
-                        </div>
-                      </div>
-                      <div className="mt-4">
-                        <PagoCTA href={PAY.mentoriaFinanciacion} variant="secondary">
-                          Empezar con {fmt(PRECIO.financiacionInicial)}
-                        </PagoCTA>
-                      </div>
-                      {/* Transparencia del costo del plan: el financiado paga más
-                          que el de contado y hay que decirlo sin buscarlo. */}
-                      <p className="mt-3 text-center text-[11.5px] leading-snug text-ivory/50">
-                        Total del plan financiado {fmt(financiadoTotal)} ({fmt(recargoFinanciacion)}{' '}
-                        más que pagando de una sola vez).
+                      <p className="mb-2.5 flex items-center justify-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-gold-bright">
+                        <Icon.Star className="text-[10px]" />
+                        Plazas limitadas por grupo
                       </p>
+                      <PagoCTA href={PAY.mentoria} className={reduce ? undefined : 'cta-pulse'}>
+                        Empezar ahora · {fmt(PRECIO.mentoria)}
+                      </PagoCTA>
+                      {/* Klarna/Afterpay con visibilidad propia: el menulink del
+                          CTA de arriba ofrece pagar el total O dividirlo con
+                          estos proveedores, y eso hay que decirlo ANTES del
+                          clic, no descubrirlo en el checkout. */}
+                      <div className="mt-3 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2">
+                        <span className="text-[11.5px] text-ivory/55">
+                          Pago único o en cuotas con
+                        </span>
+                        <span className="inline-flex items-center gap-2">
+                          <BadgeKlarna />
+                          <BadgeAfterpay />
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -384,14 +309,12 @@ export default function OfertasCompletas() {
                 </div>
 
                 <div className="mt-8">
-                  <CTAButton
-                    href={PAY.intensivo}
-                    variant="secondary"
-                    size="lg"
-                    className="w-full"
-                  >
+                  {/* PagoCTA y no CTAButton: comparte con la Mentoría la regla de
+                      no navegar a ningún lado mientras el link de pago del monto
+                      nuevo no esté cableado. */}
+                  <PagoCTA href={PAY.intensivo} variant="secondary">
                     Reservar mi asiento · {fmt(PRECIO.intensivo)}
-                  </CTAButton>
+                  </PagoCTA>
                   <p className="mt-2 text-center text-[11.5px] text-ivory/45">
                     Se acredita a la Mentoría si decides subir después.
                   </p>
@@ -413,7 +336,7 @@ export default function OfertasCompletas() {
             intro="Sus propias palabras, sin guion. Desliza para ver todos."
           />
           <div className="mt-8">
-            <TestimoniosCarousel />
+            <TestimoniosCarousel items={TESTIMONIOS_OFERTAS} />
           </div>
           <p className="mx-auto mt-6 max-w-2xl text-center text-[12px] leading-snug text-ivory/45">
             {TESTIMONIOS_NOTA}
@@ -440,7 +363,7 @@ export default function OfertasCompletas() {
                     <th className="w-1/4 px-3 py-4 text-gold">
                       Mentoría 1:1
                       <span className="block text-[11px] normal-case tracking-normal text-gold/60">
-                        {fmt(PRECIO.mentoriaHoy)}
+                        {fmt(PRECIO.mentoria)}
                       </span>
                     </th>
                   </tr>
