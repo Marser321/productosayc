@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
 import { Icon } from '../primitives'
-import { TESTIMONIOS, duracionLabel } from '../../content/testimonios'
+import { TESTIMONIOS, duracionLabel, type Testimonio } from '../../content/testimonios'
 
 // ─────────────────────────────────────────────────────────────────────────
 //  Carrusel lateral de testimonios en video. 3 visibles en desktop, 2 en
@@ -16,7 +16,12 @@ import { TESTIMONIOS, duracionLabel } from '../../content/testimonios'
 //  Reproducir uno pausa el que estuviera sonando.
 // ─────────────────────────────────────────────────────────────────────────
 
-export function TestimoniosCarousel() {
+export function TestimoniosCarousel({
+  items = TESTIMONIOS,
+}: {
+  /** Lista de testimonios a mostrar. Por defecto los del catálogo general. */
+  items?: readonly Testimonio[]
+} = {}) {
   const reduce = useReducedMotion()
   const trackRef = useRef<HTMLUListElement>(null)
   const [activo, setActivo] = useState<string | null>(null)
@@ -68,9 +73,11 @@ export function TestimoniosCarousel() {
     <div className="relative">
       <ul
         ref={trackRef}
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className={`flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+          items.length <= 3 ? 'lg:justify-center' : ''
+        }`}
       >
-        {TESTIMONIOS.map((t) => {
+        {items.map((t) => {
           const abierto = activo === t.file
           return (
             <li

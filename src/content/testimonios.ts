@@ -34,6 +34,15 @@ export const TESTIMONIOS: readonly Testimonio[] = [
   { file: 'testimonio-05', segundos: 122 },
 ]
 
+/** Testimonios REALES curados por el cliente para la página de ofertas
+ *  (videos verticales de WhatsApp, 2026-07-21). El 3º se agrega cuando el
+ *  cliente lo termine de subir a la carpeta de origen. */
+export const TESTIMONIOS_OFERTAS: readonly Testimonio[] = [
+  { file: 'oferta-03', segundos: 47 },
+  { file: 'oferta-01', segundos: 61 },
+  { file: 'oferta-02', segundos: 71 },
+]
+
 /** Etiqueta de duración estilo reproductor (2:02). */
 export function duracionLabel(segundos: number): string {
   const m = Math.floor(segundos / 60)
