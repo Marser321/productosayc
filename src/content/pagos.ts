@@ -23,17 +23,19 @@ export const fmt = (n: number) => `$${n.toLocaleString('en-US')}`
 /**
  * Checkouts de FastPayDirect.
  *
- * ⚠ `mentoria` e `intensivo` están VACÍOS a propósito: los links que había
- * cobraban los montos viejos ($4,997 y $297) y las páginas ya muestran $10,000 y
- * $347. Con el link vacío, `PagoCTA` deshabilita el botón y lo dice en pantalla
- * en vez de mandar a cobrar el precio equivocado. Cablear acá —y solo acá— los
- * links nuevos apenas el cliente los cree.
+ * El cliente cambió el monto DENTRO del producto, así que los IDs son los
+ * mismos de siempre. Verificado abriendo cada checkout el 2026-08-11: Mentoría
+ * "Total $10,000.00", Intensivo "Total $347.00". El listado del CRM no muestra
+ * el monto real — hay que abrir el link para confirmarlo.
+ *
+ * Si un link queda vacío, `PagoCTA` deshabilita el botón y lo dice en pantalla
+ * en vez de mandar a cobrar el precio equivocado.
  */
 export const PAY = {
-  /** "Mentoría 1:1 Pago único": $10,000 (+ Klarna/Afterpay). PENDIENTE. */
-  mentoria: '',
-  /** "Intensivo MAP 9": pago único de $347. PENDIENTE. */
-  intensivo: '',
+  /** "Mentoría 1:1": pago único de $10,000 (+ Klarna/Afterpay). */
+  mentoria: 'https://link.fastpaydirect.com/payment-link/6a5fc56b7b99151a5403fc3f',
+  /** "Intensivo MAP-9": pago único de $347. */
+  intensivo: 'https://link.fastpaydirect.com/payment-link/6a4d2644c981f3feae6e7e2f',
   /** Comunidad $27/mes: sin cambio de precio, link vivo. */
   comunidad: 'https://link.fastpaydirect.com/payment-link/6a4d286aa655fa0b802a3179',
 } as const
