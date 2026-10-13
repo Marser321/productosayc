@@ -3,6 +3,7 @@ import Comunidad from './landings/Comunidad'
 import CompraIntensivo from './landings/CompraIntensivo'
 import OfertasCompletas from './landings/OfertasCompletas'
 import Gracias from './landings/Gracias'
+import Agendar from './landings/Agendar'
 
 function NotFound() {
   return (
@@ -33,6 +34,9 @@ export const router = createBrowserRouter([
   // Intensivo vs Mentoría van a la oferta única.
   { path: '/mentoria', element: <Navigate to="/ofertas" replace /> },
   { path: '/comparar', element: <Navigate to="/ofertas" replace /> },
+
+  // Agenda: calendario de GHL "Programa de compra de propiedades en Subasta".
+  { path: '/agendar', element: <Agendar /> },
 
   // Página de gracias ÚNICA para todos los productos (genérica, sin WhatsApp).
   { path: '/gracias', element: <Gracias /> },
