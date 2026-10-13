@@ -1,8 +1,6 @@
 import { createBrowserRouter, Link, Navigate } from 'react-router-dom'
 import Comunidad from './landings/Comunidad'
 import CompraIntensivo from './landings/CompraIntensivo'
-import CompraMentoria from './landings/CompraMentoria'
-import CompararOfertas from './landings/CompararOfertas'
 import OfertasCompletas from './landings/OfertasCompletas'
 import Gracias from './landings/Gracias'
 
@@ -25,17 +23,16 @@ export const router = createBrowserRouter([
   { path: '/', element: <Comunidad /> },
   { path: '/comunidad', element: <Navigate to="/" replace /> },
 
-  // Comparativa de Ofertas (Intensivo vs Mentoria)
-  { path: '/comparar', element: <CompararOfertas /> },
-
-  // Página completa: las 3 ofertas concentradas (Comunidad + Intensivo + Mentoría)
+  // Oferta post-masterclass: el Intensivo MAP-9 como única oferta.
   { path: '/ofertas', element: <OfertasCompletas /> },
 
   // Intensivo MAP-9
   { path: '/intensivo', element: <CompraIntensivo /> },
 
-  // Mentoría 1:1
-  { path: '/mentoria', element: <CompraMentoria /> },
+  // La Mentoría 1:1 dejó de ofrecerse (2026-10-13): sus rutas y la comparativa
+  // Intensivo vs Mentoría van a la oferta única.
+  { path: '/mentoria', element: <Navigate to="/ofertas" replace /> },
+  { path: '/comparar', element: <Navigate to="/ofertas" replace /> },
 
   // Página de gracias ÚNICA para todos los productos (genérica, sin WhatsApp).
   { path: '/gracias', element: <Gracias /> },
@@ -48,7 +45,7 @@ export const router = createBrowserRouter([
   { path: '/l/09-comunidad', element: <Navigate to="/" replace /> },
   { path: '/l/03-intensivo', element: <Navigate to="/intensivo" replace /> },
   { path: '/l/04-gracias-intensivo', element: <Navigate to="/gracias" replace /> },
-  { path: '/l/05-mentoria', element: <Navigate to="/mentoria" replace /> },
+  { path: '/l/05-mentoria', element: <Navigate to="/ofertas" replace /> },
   { path: '/l/06-gracias-mentoria', element: <Navigate to="/gracias" replace /> },
 
   { path: '*', element: <NotFound /> },

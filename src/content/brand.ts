@@ -149,15 +149,8 @@ export const FUNNEL: Record<string, Tier> = {
   intensivo: {
     id: 'intensivo',
     name: 'Intensivo MAP-9',
-    price: '$347',
+    price: '$497',
     priceNote: 'viernes + sábado · en vivo · cupos limitados',
-    cta: 'Reservar mi asiento del intensivo ($347)',
-  },
-  mentoria: {
-    id: 'mentoria',
-    name: 'Mentoría 1:1 Magic Capital',
-    price: '$10,000',
-    priceNote: 'pago único · 3 módulos · acompañamiento 1:1',
-    cta: 'Empezar mi mentoría',
+    cta: 'Reservar mi asiento del intensivo ($497)',
   },
 } as const

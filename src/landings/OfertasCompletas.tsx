@@ -1,12 +1,4 @@
-import {
-  Section,
-  Container,
-  Kicker,
-  SectionHeader,
-  GlassCard,
-  CTAButton,
-  Icon,
-} from '../components/primitives'
+import { Section, Container, Kicker, SectionHeader, CTAButton, Icon } from '../components/primitives'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Reveal } from '../components/motion'
 import { LandingHero, LandingLayout } from '../components/shell'
@@ -17,96 +9,35 @@ import { TESTIMONIOS_NOTA, TESTIMONIOS_OFERTAS } from '../content/testimonios'
 import { sectionBg } from '../content/section-backgrounds'
 
 // ─────────────────────────────────────────────────────────────────────────
-//  OFERTAS DE LA MASTERCLASS — dos caminos, no tres.
-//  La Comunidad NO se ofrece aquí (decisión 2026-07-20): esta página la ve
-//  tráfico que sale de la masterclass, y meter un tercer plan de $27 diluía la
-//  decisión. Por eso también salió de la comparativa, que ahora es a 2 columnas.
+//  OFERTA DE LA MASTERCLASS — una sola.
+//  Decisión del cliente 2026-10-13: sale la Mentoría 1:1 ($10,000) y el
+//  Intensivo MAP-9 pasa a $497 como ÚNICA oferta, con todo el protagonismo
+//  (antes era la alternativa sobria al lado de la Mentoría). Sin comparativa:
+//  no hay nada con qué comparar. La Comunidad tampoco se ofrece aquí
+//  (decisión 2026-07-20).
 //
-//  Jerarquía deliberada: la Mentoría 1:1 es LA oferta (borde y fondo dorados,
-//  glow superior, más ancho de grilla, precio grande) y el Intensivo queda como
-//  alternativa sobria. El peso visual lo carga la grilla 3/2 + el tratamiento
-//  dorado, no un tamaño de fuente mayor.
+//  Lo que incluye es el mismo listado que se presenta en vivo en el deck
+//  (slide "Intensivo MAP 9 · $497"), para que la página no prometa otra cosa.
 // ─────────────────────────────────────────────────────────────────────────
 
-const MENTORIA_INCLUYE = [
-  'Sesiones privadas 1:1 con Argenis y Carmen',
-  'Análisis forense de 5 propiedades reales tuyas',
-  'Estructuración de tu LLC y tu perfil de crédito al 0%',
-  'Acompañamiento hasta tu primera subasta',
-  'Soporte diario 1:1 (lunes a viernes)',
-  'Biblioteca y grabaciones de por vida',
-]
-
 const INTENSIVO_INCLUYE = [
-  '2 días prácticos en vivo',
-  'Guía interactiva MAP-9',
-  'Filtro forense de condados',
-  'Repeticiones de Q&A por 14 días',
+  'El paso a paso del Método MAP-9, en vivo durante 2 días',
+  'Acceso a las reuniones semanales de la comunidad por un mes (preguntas y respuestas)',
+  'Cita diagnóstico con Carmen para obtención de crédito de negocio',
+  'Guía teórica de subasta de propiedades',
+  'Mapa de estados con Tax Deed y Tax Lien',
 ]
 
-type Cell = boolean | string
-
-const COMPARACION: { feat: string; intensivo: Cell; mentoria: Cell }[] = [
-  { feat: 'Formación en el Método MAP-9', intensivo: true, mentoria: true },
-  { feat: 'Sesiones en vivo', intensivo: '2 días intensivos', mentoria: 'Privadas 1:1' },
-  { feat: 'Sesiones de consultoría privadas 1:1', intensivo: false, mentoria: '8 sesiones' },
-  { feat: 'Análisis forense de propiedades reales tuyas', intensivo: false, mentoria: '5 propiedades' },
-  { feat: 'LLC y perfil de crédito al 0% estructurado', intensivo: false, mentoria: true },
-  { feat: 'Acompañamiento hasta tu primera subasta', intensivo: false, mentoria: true },
-  { feat: 'Biblioteca de recursos y grabaciones', intensivo: '14 días', mentoria: 'De por vida' },
-  { feat: 'Soporte', intensivo: 'Grupal', mentoria: 'Diario 1:1 (L-V)' },
-]
-
-
-/** Celda de la comparativa: check/guion para booleanos, texto para valores. */
-function CompareCell({ value, gold = false }: { value: Cell; gold?: boolean }) {
-  if (typeof value === 'boolean') {
-    return value ? (
-      <Icon.Check className="mx-auto text-lg text-gold" />
-    ) : (
-      <span className="text-white/20">—</span>
-    )
-  }
-  return <span className={gold ? 'font-semibold text-gold' : 'text-ivory/65'}>{value}</span>
-}
-
-/**
- * Badges de Klarna y Afterpay con los colores de marca de cada proveedor
- * (rosa #FFB3C7 y menta #B2FCE4). Son pills tipográficas, no assets: se
- * reconocen como los logos sin cargar imágenes externas, y quedan siempre
- * visibles aunque el link de pago aún esté pendiente — el cliente revisa el
- * visual antes de cablear el menulink.
- */
-function BadgeKlarna() {
-  return (
-    <span
-      aria-label="Klarna"
-      className="inline-flex h-7 items-center rounded-md bg-[#FFB3C7] px-3 font-sans text-[13px] font-bold tracking-tight text-black"
-    >
-      Klarna.
-    </span>
-  )
-}
-
-function BadgeAfterpay() {
-  return (
-    <span
-      aria-label="Afterpay"
-      className="inline-flex h-7 items-center rounded-md bg-[#B2FCE4] px-3 font-sans text-[13px] font-bold lowercase tracking-tight text-black"
-    >
-      afterpay
-    </span>
-  )
-}
+const BONO = 'Los primeros 5 tendrán una reunión 1:1 con Argenis'
 
 export default function OfertasCompletas() {
   // Un solo interruptor para todo el movimiento de la página: con
-  // `prefers-reduced-motion` las tarjetas quedan quietas (sin loops, sin barrido,
+  // `prefers-reduced-motion` la tarjeta queda quieta (sin loops, sin barrido,
   // sin levante) pero con exactamente la misma jerarquía visual.
   const reduce = useReducedMotion()
 
-  const scrollToPlanes = () => {
-    const el = document.getElementById('planes')
+  const scrollToOferta = () => {
+    const el = document.getElementById('oferta')
     if (!el) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
@@ -119,215 +50,125 @@ export default function OfertasCompletas() {
         tone="charcoal"
         fillViewport
         image={{
-          src: '/img/05/05-compra-mentoria__hero-fundadores-revisando-portal.png',
-          alt: 'Magic Capital — programas',
+          src: '/img/03/03-compra-intensivo__hero-fundadores-sesion-vivo.png',
+          alt: 'Magic Capital — Intensivo MAP-9',
           focal: '50% 35%',
           scrim: 'full',
         }}
-        banner={{ src: LANDING_BANNER['03'], alt: 'Magic Capital — Programas', ratio: '4x5' }}
-        kicker={<Kicker>Programas de Magic Capital</Kicker>}
-        title={<>Elige cómo quieres llegar a tu primera subasta.</>}
+        banner={{ src: LANDING_BANNER['03'], alt: 'Magic Capital — Intensivo MAP-9', ratio: '4x5' }}
+        kicker={<Kicker>Fin de Semana Intensivo</Kicker>}
+        title={<>El paso a paso del Método MAP-9, en vivo.</>}
         sub={
           <>
-            Dos caminos con el mismo método: la{' '}
-            <strong className="text-ivory">Mentoría Privada 1:1</strong>, donde trabajamos contigo
-            hasta que pujes con criterio, o el{' '}
-            <strong className="text-ivory">Intensivo MAP-9</strong> si prefieres ejecutar por tu
-            cuenta.
+            Dos días en grupo con Carmen y Argenis para aprender a filtrar, analizar y ejecutar
+            subastas por tu cuenta. <strong className="text-ivory">Cupos limitados.</strong>
           </>
         }
         actions={
-          <CTAButton onClick={scrollToPlanes} icon={<Icon.ArrowRight />} magnetic>
+          <CTAButton onClick={scrollToOferta} icon={<Icon.ArrowRight />} magnetic>
             Ver la oferta
           </CTAButton>
         }
       />
 
-      {/* 2 · Planes. Grilla 3/2: la Mentoría ocupa más ancho a propósito. */}
-      <Section id="planes" tone="ivory-dim" pad="md" texture={sectionBg('03-compra-intensivo', 6)}>
+      {/* 2 · La oferta: una sola tarjeta, centrada y con todo el tratamiento dorado. */}
+      <Section id="oferta" tone="ivory-dim" pad="md" texture={sectionBg('03-compra-intensivo', 6)}>
         <Container>
           <SectionHeader
             kicker="Tu próximo paso"
-            title="Elige el camino con el que vas a ejecutar"
-            intro="La Mentoría Privada 1:1 si quieres que trabajemos contigo hasta tu primera subasta; el Intensivo MAP-9 si prefieres el método y ejecutar por tu cuenta."
+            title="Reserva tu lugar en el Intensivo MAP-9"
+            intro="Ya viste el método en la masterclass. Ahora apréndelo paso a paso, en vivo, y llévate las herramientas para ejecutarlo."
           />
 
-          <div className="mt-10 grid items-start gap-6 lg:grid-cols-5">
-            {/* ── MENTORÍA · protagonista ───────────────────────────────── */}
-            <Reveal className="flex lg:col-span-3">
-              <div className="group relative w-full">
-                {/* Glow superior que RESPIRA. Junto con el haz del borde, el pulso
-                    del CTA y la respiración de la sombra (index.css, ciclo de 7s)
-                    forman el único conjunto de loops permanentes de la página — el
-                    Intensivo no lleva nada equivalente, y ahí está la jerarquía. */}
-                <motion.div
-                  aria-hidden
-                  className="pointer-events-none absolute -inset-x-6 -top-8 h-40 rounded-full bg-gold/20 blur-3xl"
-                  animate={reduce ? undefined : { opacity: [0.55, 1, 0.55], scale: [0.97, 1.04, 0.97] }}
-                  transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-                />
-                {/* Tarjeta propia en vez de <GlassCard>: `cn` no hace twMerge, así
-                    que las clases del componente y las de aquí se pisaban (el tinte
-                    dorado llegaba a reemplazar el navy base en lugar de superponerse).
-                    El fondo es navy sólido + un velo dorado por gradiente. */}
-                <motion.div
-                  className="card-breathe relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border-2 border-gold/50 bg-navy-soft bg-[linear-gradient(rgba(201,162,75,0.06),rgba(201,162,75,0.02))] p-7 text-ivory shadow-gold-ring sm:p-9"
-                  whileHover={reduce ? undefined : { y: -6, transition: { duration: 0.28 } }}
-                >
-                  {/* Haz que recorre el borde en loop (ver .card-beam). Se omite
-                      del todo con reduced-motion: congelado es solo una mancha. */}
-                  {!reduce && <span aria-hidden className="card-beam" />}
-                  {/* Barrido de luz dorada al pasar el cursor. pointer-events-none
-                      para no robarle el clic a los CTA que están debajo. */}
-                  {!reduce && (
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute inset-y-0 -left-full w-1/2 skew-x-12 bg-gradient-to-r from-transparent via-gold/10 to-transparent transition-all duration-[1100ms] ease-out group-hover:left-[150%]"
-                    />
-                  )}
-                  <div>
-                    <motion.div
-                      className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3.5 py-1.5 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-gold-bright"
-                      animate={reduce ? undefined : { boxShadow: ['0 0 0 0 rgba(201,162,75,0)', '0 0 18px 0 rgba(201,162,75,0.35)', '0 0 0 0 rgba(201,162,75,0)'] }}
-                      transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-                    >
-                      <Icon.Star className="text-xs" />
-                      El acompañamiento más completo
-                    </motion.div>
-
-                    <h3 className="mt-4 font-display text-3xl font-semibold text-ivory sm:text-4xl">
-                      Mentoría Privada 1:1
-                    </h3>
-                    <p className="mt-3 max-w-xl font-sans text-[15px] leading-relaxed text-ivory/75">
-                      Trabajas directamente con Argenis y Carmen sobre tus propias subastas y tu
-                      propio crédito. Te estructuramos la empresa, revisamos contigo las propiedades
-                      y te acompañamos hasta que pujes.
-                    </p>
-
-                    {/* Precio ÚNICO, sin tachado ni "hoy": esta vez no hay
-                        descuento (decisión del cliente 2026-08-11). Sin precio de
-                        referencia no hay nada que justificar ante la FTC, así que
-                        el bloque es deliberadamente simple. */}
-                    <div className="mt-7">
-                      <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
-                        <span className="font-display text-5xl font-bold leading-none text-gold-metallic sm:text-6xl">
-                          {fmt(PRECIO.mentoria)}
-                        </span>
-                        <span className="pb-1 text-[13px] font-semibold text-gold-bright">
-                          inversión única
-                        </span>
-                      </div>
-                      <p className="mt-3 text-[13px] text-ivory/60">
-                        Cupos limitados: trabajamos con pocas personas a la vez para poder
-                        acompañarlas de verdad.
-                      </p>
-                    </div>
-
-                    <div className="my-7 h-px bg-gold/25" />
-
-                    <ul className="space-y-3">
-                      {MENTORIA_INCLUYE.map((item) => (
-                        <li key={item} className="flex gap-2.5 text-[14px] text-ivory/85">
-                          <Icon.Check className="mt-0.5 shrink-0 text-gold" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Una sola forma de pagar: la financiación directa de Carmen y
-                      Argenis salió de esta página (decisión del cliente
-                      2026-08-11, junto con el precio único de $10,000). Quien
-                      necesite dividir el pago lo hace con Klarna/Afterpay desde
-                      el mismo checkout. */}
-                  <div className="mt-8">
-                    <div>
-                      <p className="mb-2.5 flex items-center justify-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-gold-bright">
-                        <Icon.Star className="text-[10px]" />
-                        Plazas limitadas por grupo
-                      </p>
-                      <PagoCTA href={PAY.mentoria} className={reduce ? undefined : 'cta-pulse'}>
-                        Empezar ahora · {fmt(PRECIO.mentoria)}
-                      </PagoCTA>
-                      {/* Klarna/Afterpay con visibilidad propia: el menulink del
-                          CTA de arriba ofrece pagar el total O dividirlo con
-                          estos proveedores, y eso hay que decirlo ANTES del
-                          clic, no descubrirlo en el checkout. */}
-                      <div className="mt-3 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2">
-                        <span className="text-[11.5px] text-ivory/55">
-                          Pago único o en cuotas con
-                        </span>
-                        <span className="inline-flex items-center gap-2">
-                          <BadgeKlarna />
-                          <BadgeAfterpay />
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </Reveal>
-
-            {/* ── INTENSIVO · alternativa sobria ────────────────────────── */}
-            <Reveal className="flex lg:col-span-2">
-              {/* Misma razón que la tarjeta de arriba: sin twMerge, `bg-white/[0.02]`
-                  sobre <GlassCard> borraba el navy en vez de aclararlo.
-                  Movimiento deliberadamente MENOR que el de la Mentoría: solo un
-                  levante corto al hover, sin glow, sin barrido y sin loop. La
-                  diferencia de tratamiento ES la jerarquía. */}
+          <Reveal className="mx-auto mt-10 flex max-w-3xl">
+            <div className="group relative w-full">
+              {/* Glow superior que RESPIRA. Junto con el haz del borde, el pulso
+                  del CTA y la respiración de la sombra (index.css, ciclo de 7s)
+                  forman el único conjunto de loops permanentes de la página. */}
               <motion.div
-                className="flex h-full w-full flex-col justify-between rounded-2xl border border-white/10 bg-navy-soft bg-[linear-gradient(rgba(255,255,255,0.02),rgba(255,255,255,0.02))] p-7 text-ivory shadow-glass-dark transition-colors hover:border-white/20"
-                whileHover={reduce ? undefined : { y: -2, transition: { duration: 0.28 } }}
+                aria-hidden
+                className="pointer-events-none absolute -inset-x-6 -top-8 h-40 rounded-full bg-gold/20 blur-3xl"
+                animate={reduce ? undefined : { opacity: [0.55, 1, 0.55], scale: [0.97, 1.04, 0.97] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              {/* Tarjeta propia en vez de <GlassCard>: `cn` no hace twMerge, así
+                  que las clases del componente y las de aquí se pisaban (el tinte
+                  dorado llegaba a reemplazar el navy base en lugar de superponerse).
+                  El fondo es navy sólido + un velo dorado por gradiente. */}
+              <motion.div
+                className="card-breathe relative flex h-full w-full flex-col overflow-hidden rounded-2xl border-2 border-gold/50 bg-navy-soft bg-[linear-gradient(rgba(201,162,75,0.06),rgba(201,162,75,0.02))] p-7 text-ivory shadow-gold-ring sm:p-10"
+                whileHover={reduce ? undefined : { y: -6, transition: { duration: 0.28 } }}
               >
-                <div>
-                  <span className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-ivory/45">
-                    Si prefieres hacerlo por tu cuenta
-                  </span>
-                  <h3 className="mt-2 font-display text-2xl font-semibold text-ivory">
-                    Intensivo MAP-9
-                  </h3>
-                  <p className="mt-3 font-sans text-[14px] leading-relaxed text-ivory/65">
-                    Aprende el método completo en vivo durante un fin de semana y llévate las
-                    herramientas para operar solo.
-                  </p>
+                {/* Haz que recorre el borde en loop (ver .card-beam). Se omite
+                    del todo con reduced-motion: congelado es solo una mancha. */}
+                {!reduce && <span aria-hidden className="card-beam" />}
+                {/* Barrido de luz dorada al pasar el cursor. pointer-events-none
+                    para no robarle el clic al CTA que está debajo. */}
+                {!reduce && (
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-y-0 -left-full w-1/2 skew-x-12 bg-gradient-to-r from-transparent via-gold/10 to-transparent transition-all duration-[1100ms] ease-out group-hover:left-[150%]"
+                  />
+                )}
 
-                  <div className="mt-6 font-display text-3xl font-bold text-ivory/85">
+                <motion.div
+                  className="inline-flex items-center gap-2 self-start rounded-full border border-gold/40 bg-gold/10 px-3.5 py-1.5 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-gold-bright"
+                  animate={reduce ? undefined : { boxShadow: ['0 0 0 0 rgba(201,162,75,0)', '0 0 18px 0 rgba(201,162,75,0.35)', '0 0 0 0 rgba(201,162,75,0)'] }}
+                  transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <Icon.Star className="text-xs" />
+                  Solo 20 cupos disponibles
+                </motion.div>
+
+                <h3 className="mt-4 font-display text-3xl font-semibold text-ivory sm:text-4xl">
+                  Fin de Semana Intensivo MAP-9
+                </h3>
+                <p className="mt-3 max-w-xl font-sans text-[15px] leading-relaxed text-ivory/75">
+                  Por 2 días y de manera grupal, te enseñamos el paso a paso del Método MAP-9:
+                  cómo filtrar condados, analizar cada propiedad y llegar a la subasta con
+                  criterio.
+                </p>
+
+                <div className="mt-7 flex flex-wrap items-end gap-x-3 gap-y-1">
+                  <span className="font-display text-5xl font-bold leading-none text-gold-metallic sm:text-6xl">
                     {fmt(PRECIO.intensivo)}
-                  </div>
-                  <p className="mt-1 text-[12px] text-ivory/40">Inversión única</p>
-
-                  <div className="my-6 h-px bg-white/10" />
-
-                  <ul className="space-y-2.5">
-                    {INTENSIVO_INCLUYE.map((item) => (
-                      <li key={item} className="flex gap-2.5 text-[13.5px] text-ivory/70">
-                        <Icon.Check className="mt-0.5 shrink-0 text-ivory/35" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                  </span>
+                  <span className="pb-1 text-[13px] font-semibold text-gold-bright">
+                    inversión única
+                  </span>
                 </div>
 
-                <div className="mt-8">
-                  {/* PagoCTA y no CTAButton: comparte con la Mentoría la regla de
-                      no navegar a ningún lado mientras el link de pago del monto
-                      nuevo no esté cableado. */}
-                  <PagoCTA href={PAY.intensivo} variant="secondary">
-                    Reservar mi asiento · {fmt(PRECIO.intensivo)}
+                <div className="my-7 h-px bg-gold/25" />
+
+                <ul className="space-y-3">
+                  {INTENSIVO_INCLUYE.map((item) => (
+                    <li key={item} className="flex gap-2.5 text-[14.5px] text-ivory/85">
+                      <Icon.Check className="mt-0.5 shrink-0 text-gold" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-6 rounded-xl border border-gold/25 bg-gold/10 px-4 py-3 text-center text-[13.5px] font-semibold text-gold-bright">
+                  🎁 {BONO}
+                </div>
+
+                <div className="mt-8 flex flex-col items-center">
+                  <PagoCTA href={PAY.intensivo} className={reduce ? undefined : 'cta-pulse'}>
+                    Reservar mi lugar · {fmt(PRECIO.intensivo)}
                   </PagoCTA>
-                  <p className="mt-2 text-center text-[11.5px] text-ivory/45">
-                    Se acredita a la Mentoría si decides subir después.
+                  <p className="mt-3 text-center text-[12px] text-ivory/55">
+                    Cupos limitados: se asignan por orden de reserva.
                   </p>
                 </div>
               </motion.div>
-            </Reveal>
-          </div>
+            </div>
+          </Reveal>
         </Container>
       </Section>
 
-      {/* 3 · Testimonios en video. Van DESPUÉS de los planes a propósito: primero
-             la oferta, después la prueba que la sostiene, y de ahí a la
-             comparativa para cerrar la decisión. */}
+      {/* 3 · Testimonios en video, después de la oferta: primero lo que se
+             ofrece, después la prueba que lo sostiene. */}
       <Section tone="ivory" pad="md" texture={sectionBg('03-compra-intensivo', 3)}>
         <Container>
           <SectionHeader
@@ -344,49 +185,24 @@ export default function OfertasCompletas() {
         </Container>
       </Section>
 
-      {/* 4 · Comparativa a 2 columnas (la Comunidad no se ofrece en esta página) */}
+      {/* 4 · Cierre: segundo CTA para quien llegó al final sin reservar. */}
       <Section tone="charcoal" pad="md">
         <Container width="narrow">
-          <SectionHeader tone="dark" kicker="Comparativa" title="Los dos programas, lado a lado" />
-          <Reveal className="mt-8">
-            <GlassCard tone="dark" className="overflow-x-auto p-0">
-              <table className="w-full min-w-[520px] border-collapse text-center">
-                <thead>
-                  <tr className="border-b border-white/10 text-[12px] uppercase tracking-wider text-ivory/50">
-                    <th className="px-6 py-4 text-left">Característica</th>
-                    <th className="w-1/4 px-3 py-4">
-                      Intensivo
-                      <span className="block text-[11px] normal-case tracking-normal text-ivory/40">
-                        {fmt(PRECIO.intensivo)}
-                      </span>
-                    </th>
-                    <th className="w-1/4 px-3 py-4 text-gold">
-                      Mentoría 1:1
-                      <span className="block text-[11px] normal-case tracking-normal text-gold/60">
-                        {fmt(PRECIO.mentoria)}
-                      </span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/[0.05]">
-                  {COMPARACION.map((row) => (
-                    <tr key={row.feat} className="text-[13.5px] hover:bg-white/[0.01]">
-                      <td className="px-6 py-3 text-left font-medium text-ivory/85">{row.feat}</td>
-                      <td className="px-3 py-3">
-                        <CompareCell value={row.intensivo} />
-                      </td>
-                      <td className="px-3 py-3">
-                        <CompareCell value={row.mentoria} gold />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </GlassCard>
+          <Reveal className="text-center">
+            <SectionHeader
+              tone="dark"
+              kicker="Tu decisión"
+              title="La oportunidad ya está sobre la mesa"
+              intro="Reserva hoy tu lugar en el Fin de Semana Intensivo en vivo."
+            />
+            <div className="mx-auto mt-8 flex max-w-md justify-center">
+              <PagoCTA href={PAY.intensivo}>
+                Reservar mi lugar · {fmt(PRECIO.intensivo)}
+              </PagoCTA>
+            </div>
           </Reveal>
         </Container>
       </Section>
-
     </LandingLayout>
   )
 }
